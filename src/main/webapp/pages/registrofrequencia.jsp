@@ -1,8 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:set var="pageTitle" value="Registros de Frequência" scope="request" />
+<c:set var="pageTitle" value="Registros de Manual" scope="request" />
 
 <!DOCTYPE html>
 <html lang="pt-br" data-theme="${temaAtual}">
@@ -150,8 +151,16 @@
                                     ${nomeFuncionario}
                                 </td>
 
-                                <%-- Data e Hora unificadas --%>
-                                <td>${r.datahora != null ? r.datahora : '—'}</td>
+                                <%-- Data e Hora unificadas (padrão brasileiro dd/MM/yyyy HH:mm) --%>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty r.datahora}">
+                                            ${fn:substring(r.datahora, 8, 10)}/${fn:substring(r.datahora, 5, 7)}/${fn:substring(r.datahora, 0, 4)}
+                                            ${fn:substring(r.datahora, 11, 16)}
+                                        </c:when>
+                                        <c:otherwise>—</c:otherwise>
+                                    </c:choose>
+                                </td>
 
                                 <%-- Turno --%>
                                 <td>
